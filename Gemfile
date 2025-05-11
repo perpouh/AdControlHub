@@ -32,7 +32,7 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
-gem "mysql2" # Use mysql as the database for Active Record
+gem "postgresql" # Use postgresql as the database for Active Record
 gem "devise" # Authentication solution for Rails with Warden
 gem "cancancan"
 gem "kaminari"

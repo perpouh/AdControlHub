@@ -25,17 +25,17 @@ services:
       DB_DATABASE: app_development
 
   db:
-    image: mysql:8.0
-    container_name: mysql
+    image: postgres:15
+    container_name: postgres
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: app_development
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: app_development
       TZ: Asia/Tokyo
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
     ports:
-      - "3306:3306"
-    command: --innodb-use-native-aio=0
+      - "5432:5432"
 
   nginx:
     build: ./containers/nginx
@@ -57,7 +57,7 @@ services:
       - app
 
 volumes:
-  mysql_data:
+  postgres_data:
   bundle:
   tmp:
   public:
