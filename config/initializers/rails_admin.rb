@@ -39,4 +39,16 @@ RailsAdmin.config do |config|
     # history_index
     # history_show
   end
+
+  config.model 'Advertisement' do
+    edit do
+      field :title
+      field :link_url
+      field :image_url
+      field :tag_string do
+        label 'Tags (comma separated)'
+        help 'Enter tags separated by commas'
+      end
+    end
+  end
 end
