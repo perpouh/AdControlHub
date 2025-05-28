@@ -41,6 +41,15 @@ RailsAdmin.config do |config|
   end
 
   config.model 'Advertisement' do
+    show do
+      field :title
+      field :link_url
+      field :image_url
+      field :tag_string do
+        label 'Tags (comma separated)'
+        help 'Enter tags separated by commas'
+      end
+    end
     edit do
       field :title
       field :link_url
