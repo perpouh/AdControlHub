@@ -38,7 +38,6 @@ gem "cancancan"
 gem "kaminari"
 gem "ransack" # Search engine for Active Record
 gem "shrine" # File attachment library for Ruby applications
-gem 'rails_admin', '~> 3.0'
 gem "sassc-rails" # Sass compiler for Rails
 
 gem "stringio", "3.0.4"
@@ -62,6 +61,7 @@ group :development, :test do
   gem "rspec-rails" # RSpec for Rails
   gem "factory_bot_rails" # A library for setting up Ruby objects as test data
   gem 'committee-rails'
+  gem 'shoulda-matchers'
 end
 
 group :development do
