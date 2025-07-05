@@ -61,6 +61,7 @@ group :development, :test do
   gem "rspec-rails" # RSpec for Rails
   gem "factory_bot_rails" # A library for setting up Ruby objects as test data
   gem 'committee-rails'
+  gem 'shoulda-matchers'
 end
 
 group :development do
