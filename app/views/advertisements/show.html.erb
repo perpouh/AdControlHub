@@ -1,0 +1,264 @@
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- ヘッダー -->
+    <div class="mb-8">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">広告詳細</h1>
+          <p class="mt-2 text-sm text-gray-600">
+            「<%= @advertisement.title %>」の詳細情報
+          </p>
+        </div>
+        <div class="flex space-x-3">
+          <%= link_to edit_advertisement_path(@advertisement), 
+              class: 'inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500' do %>
+            <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            編集
+          <% end %>
+          <%= link_to advertisements_path, 
+              class: 'inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500' do %>
+            <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            一覧に戻る
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- メインコンテンツ -->
+      <div class="lg:col-span-2 space-y-6">
+        <!-- 基本情報 -->
+        <div class="bg-white shadow rounded-lg p-6">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">基本情報</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <dt class="text-sm font-medium text-gray-500">タイトル</dt>
+              <dd class="mt-1 text-lg text-gray-900"><%= @advertisement.title %></dd>
+            </div>
+            
+            <div>
+              <dt class="text-sm font-medium text-gray-500">ステータス</dt>
+              <dd class="mt-1">
+                <% if @advertisement.active? %>
+                  <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full bg-green-100 text-green-800">
+                    アクティブ
+                  </span>
+                <% else %>
+                  <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full bg-red-100 text-red-800">
+                    非アクティブ
+                  </span>
+                <% end %>
+              </dd>
+            </div>
+            
+            <div class="md:col-span-2">
+              <dt class="text-sm font-medium text-gray-500">リンクURL</dt>
+              <dd class="mt-1">
+                <%= link_to @advertisement.link_url, @advertisement.link_url, 
+                    target: '_blank', 
+                    class: 'text-blue-600 hover:text-blue-800 underline break-all' %>
+              </dd>
+            </div>
+            
+            <% if @advertisement.image_url.present? %>
+              <div class="md:col-span-2">
+                <dt class="text-sm font-medium text-gray-500">画像URL</dt>
+                <dd class="mt-1">
+                  <%= link_to @advertisement.image_url, @advertisement.image_url, 
+                      target: '_blank', 
+                      class: 'text-blue-600 hover:text-blue-800 underline break-all' %>
+                </dd>
+              </div>
+            <% end %>
+            
+            <% if @advertisement.alt_text.present? %>
+              <div class="md:col-span-2">
+                <dt class="text-sm font-medium text-gray-500">代替テキスト</dt>
+                <dd class="mt-1 text-gray-900"><%= @advertisement.alt_text %></dd>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- 広告設定 -->
+        <div class="bg-white shadow rounded-lg p-6">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">広告設定</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <dt class="text-sm font-medium text-gray-500">広告種別</dt>
+              <dd class="mt-1">
+                <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full 
+                            <%= @advertisement.ad_type == 'image' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' %>">
+                  <%= @advertisement.ad_type == 'image' ? '画像広告' : '動画広告' %>
+                </span>
+              </dd>
+            </div>
+            
+            <div>
+              <dt class="text-sm font-medium text-gray-500">広告サイズ</dt>
+              <dd class="mt-1">
+                <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full bg-gray-100 text-gray-800">
+                  <%= case @advertisement.ad_size
+                      when 'vertical' then '縦長'
+                      when 'horizontal' then '横長'
+                      when 'square' then '正方形'
+                      end %>
+                </span>
+              </dd>
+            </div>
+          </div>
+        </div>
+
+        <!-- タグ -->
+        <% if @advertisement.tags.any? %>
+          <div class="bg-white shadow rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">タグ</h2>
+            
+            <div class="flex flex-wrap gap-2">
+              <% @advertisement.tags.each do |tag| %>
+                <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                  <%= tag %>
+                </span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- メタ情報 -->
+        <div class="bg-white shadow rounded-lg p-6">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">メタ情報</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <dt class="text-sm font-medium text-gray-500">作成日時</dt>
+              <dd class="mt-1 text-gray-900">
+                <%= @advertisement.created_at.strftime('%Y年%m月%d日 %H:%M') %>
+              </dd>
+            </div>
+            
+            <div>
+              <dt class="text-sm font-medium text-gray-500">更新日時</dt>
+              <dd class="mt-1 text-gray-900">
+                <%= @advertisement.updated_at.strftime('%Y年%m月%d日 %H:%M') %>
+              </dd>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- サイドバー -->
+      <div class="space-y-6">
+        <!-- プレビュー -->
+        <div class="bg-white shadow rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">プレビュー</h3>
+          
+          <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
+            <div class="flex items-start space-x-4">
+              <% if @advertisement.image_url.present? %>
+                <div class="flex-shrink-0">
+                  <img src="<%= @advertisement.image_url %>" 
+                       alt="<%= @advertisement.alt_text %>" 
+                       class="h-20 w-20 object-cover rounded border border-gray-200"
+                       onerror="this.style.display='none'">
+                </div>
+              <% end %>
+              <div class="flex-1 min-w-0">
+                <h4 class="text-sm font-medium text-gray-900 truncate">
+                  <%= @advertisement.title %>
+                </h4>
+                <p class="text-xs text-gray-500 truncate mt-1">
+                  <%= @advertisement.link_url %>
+                </p>
+                <div class="mt-2 flex flex-wrap gap-1">
+                  <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full 
+                              <%= @advertisement.ad_type == 'image' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' %>">
+                    <%= @advertisement.ad_type == 'image' ? '画像' : '動画' %>
+                  </span>
+                  <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
+                    <%= case @advertisement.ad_size
+                        when 'vertical' then '縦長'
+                        when 'horizontal' then '横長'
+                        when 'square' then '正方形'
+                        end %>
+                  </span>
+                  <% if @advertisement.active? %>
+                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                      アクティブ
+                    </span>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- アクション -->
+        <div class="bg-white shadow rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">アクション</h3>
+          
+          <div class="space-y-3">
+            <%= link_to edit_advertisement_path(@advertisement), 
+                class: 'w-full inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500' do %>
+              <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
+              編集する
+            <% end %>
+            
+            <%= link_to advertisement_path(@advertisement), 
+                method: :delete, 
+                data: { confirm: '本当に削除しますか？この操作は取り消せません。' }, 
+                class: 'w-full inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500' do %>
+              <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              削除する
+            <% end %>
+            
+            <%= link_to advertisements_path, 
+                class: 'w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500' do %>
+              <svg class="-ml-1 mr-2 h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              一覧に戻る
+            <% end %>
+          </div>
+        </div>
+
+        <!-- 統計情報 -->
+        <div class="bg-white shadow rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4">統計情報</h3>
+          
+          <div class="space-y-4">
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-500">作成からの日数</span>
+              <span class="text-sm font-medium text-gray-900">
+                <%= ((Time.current - @advertisement.created_at) / 1.day).to_i %>日
+              </span>
+            </div>
+            
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-500">最終更新からの日数</span>
+              <span class="text-sm font-medium text-gray-900">
+                <%= ((Time.current - @advertisement.updated_at) / 1.day).to_i %>日
+              </span>
+            </div>
+            
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-500">タグ数</span>
+              <span class="text-sm font-medium text-gray-900">
+                <%= @advertisement.tags.count %>個
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

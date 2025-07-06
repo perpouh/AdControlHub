@@ -42,6 +42,10 @@ class Advertisement < ApplicationRecord
   scope :by_type, ->(type) { where(ad_type: type) }
   scope :by_size, ->(size) { where(ad_size: size) }
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["active", "ad_size", "ad_type", "alt_text", "created_at", "id", "image_url", "link_url", "tags", "title", "updated_at"]
+  end
+
   # インスタンスメソッド
   def tag_list
     tags.join(', ')
