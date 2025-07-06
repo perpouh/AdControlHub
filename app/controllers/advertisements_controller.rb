@@ -68,4 +68,4 @@ class AdvertisementsController < ApplicationController
       :tag_list
     )
   end
-end 
+end
