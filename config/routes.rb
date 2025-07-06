@@ -11,6 +11,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  
+  # 広告管理
+  resources :advertisements
+  
   namespace :api do
     namespace :v1 do
       resources :advertisement, only: [:index]
