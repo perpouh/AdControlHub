@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_13_002000) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_20_035954) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "advertisement_analytics", force: :cascade do |t|
+    t.string "advertisement_id"
+    t.datetime "target_date"
+    t.string "search_word"
+    t.integer "click_count"
+    t.datetime "archived_at"
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+  end
 
   create_table "advertisements", force: :cascade do |t|
     t.string "title", null: false
