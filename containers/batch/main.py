@@ -23,14 +23,7 @@ def analyze(arg):
     pg_user = os.environ.get("POSTGRES_USER", "postgres")
     pg_password = os.environ.get("POSTGRES_PASSWORD", "")
 
-    # コマンドライン引数から日付を取得
-    if len(sys.argv) < 2:
-        print("❌ エラー: 日付を指定してください")
-        print("使用方法: python main.py YYYYMMDD")
-        print("例: python main.py 20250714")
-        sys.exit(1)
-
-    target_date = sys.argv[1]
+    target_date = arg
 
     r = redis.Redis(host=redis_host, port=redis_port, decode_responses=True)
 
