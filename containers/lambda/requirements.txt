@@ -1,0 +1,7 @@
+Flask
+boto3
+requests
+python-dotenv
+email-validator
+redis
+flask-cors 

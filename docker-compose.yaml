@@ -81,6 +81,57 @@ services:
       - ./containers/batch:/app
     command: tail -f /dev/null
 
+  frontend:
+    build: ./containers/frontend
+    container_name: frontend
+    ports:
+      - "8080:80"
+    environment:
+      - TZ=Asia/Tokyo
+    restart: unless-stopped
+
+  apigw:
+    build: ./containers/apigw
+    container_name: apigw
+    ports:
+      - "5000:5000"
+    environment:
+      - TZ=Asia/Tokyo
+      - LAMBDA_URL=http://lambda:5000/register
+      - LAMBDA_VERIFY_URL=http://lambda:5000/verify
+    restart: unless-stopped
+
+  lambda:
+    build: ./containers/lambda
+    container_name: lambda
+    ports:
+      - "5001:5000"
+    environment:
+      - TZ=Asia/Tokyo
+      - DYNAMO_ENDPOINT=http://dynamodb-local:8000
+      - DYNAMO_TABLE=user_otps
+      - MAILHOG_URL=http://mailhog:8025
+    depends_on:
+      - dynamodb-local
+      - mailhog
+    restart: unless-stopped
+
+  dynamodb-local:
+    image: amazon/dynamodb-local
+    container_name: dynamodb-local
+    ports:
+      - "8000:8000"
+    command: -jar DynamoDBLocal.jar -inMemory -sharedDb
+    restart: unless-stopped
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    restart: unless-stopped
+
 volumes:
   postgres_data:
   bundle:

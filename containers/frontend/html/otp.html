@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>OTP認証</title>
+  <script src="otp.js" defer></script>
+</head>
+<body>
+  <h1>認証コード入力</h1>
+  <form id="otp-form">
+    <label for="otp">認証コード:</label>
+    <input type="text" id="otp" name="otp" maxlength="6" required pattern="[A-HJ-NP-Z2-9]{6}">
+    <input type="hidden" id="email" name="email">
+    <button type="submit">認証</button>
+    <div id="error-message" style="color:red;"></div>
+  </form>
+</body>
+</html> 
