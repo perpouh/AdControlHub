@@ -36,3 +36,7 @@
 
 containers/mysql_data/**/*
 bundle/**/*
+
+vendor/**/*
+docs/output/**/*
+containers/batch/__pycache__/**/*
